@@ -1,0 +1,5 @@
+visitlog.py
+*.jou
+*.stl
+*.vtk
+!fng-ww-tags.vtk
