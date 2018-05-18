@@ -22,36 +22,52 @@ v3.load_file("./tmp/vols/3-0.stl")
 v3r = v3.get_root_set()
 v3_all_verts = v3.get_entities_by_type(v3r, types.MBVERTEX)
 
-v2_coords = []
+v2_coords = {}
 for v in v2_all_verts:
-    v2_coords.append(tuple([tuple(v2.get_coords(v)),v]))
+    v2_coords[v] = tuple(v2.get_coords(v))
 
 v3_coords = []
 for v in v3_all_verts:
-    v3_coords.append(tuple(v3.get_coords(v)))
+    v3_coords[v] = tuple(v3.get_coords(v))
 
-match_eh = []
+match_eh2 = []
+match_coords = []
 diff_eh = []
-for v_set in v2_coords:
-    if v_set[0] in v3_coords:
-        match_eh.append(v_set[1])
-    else:
-        diff_eh.append(v_set[1])
+for vert in v2_coords.items():
+    eh = v[0]
+    coord = v[1]
+    if coord in v3_coords.values():
+        match_eh2.append(eh)
+        match_coords.append(coord)
+
+match_eh3 = []
+for vert in v3_coords.items():
+    eh = v[0]
+    coord = v[1]
+    if coord in match_coords:
+        match_eh3.append(eh)
+
+# (1) create a meshset from match_eh2 (child_meshset)
+# (2) delete match_eh2 from vol 2
+# (3) delete match_eh3 from vol 3
+# (4) add child_meshset as child to each vol 2 and vol 3
 
 # get the connected set of triangles that make the single surf
-diff_tris = v2.get_adjacencies(diff_eh, 2, op_type=1)
-diff_surf = v2.create_meshset()
-v2.add_entities(diff_surf, diff_tris)
-
-# write to file
-r_surf = Range(diff_surf)
-v2.write_file("diffs-v23.stl", r_surf)
+# diff_tris = v2.get_adjacencies(diff_eh, 2, op_type=1)
+# diff_surf = v2.create_meshset()
+# v2.add_entities(diff_surf, diff_tris)
+#
+# # write to file
+# r_surf = Range(diff_surf)
+# v2.write_file("diffs-v23.stl", r_surf)
 
 # get the connected set of triangles that make the single surf
-match_tris = v2.get_adjacencies(match_eh, 2, op_type=1)
+match_tris = v2.get_adjacencies(match_eh2, 2, op_type=1)
 match_surf = v2.create_meshset()
-v2.add_entities(match_surf, match_tris)
+# add as child to each vol
 
-# write to file
-r_surf = Range(match_surf)
-v2.write_file("matches-v23.stl", r_surf)
+#v2.add_entities(match_surf, match_tris)
+
+# # write to file
+# r_surf = Range(match_surf)
+# v2.write_file("matches-v23.stl", r_surf)
