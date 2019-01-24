@@ -9,3 +9,10 @@ Notes:
 
 * Must have at least 2 isosurface levels (current limitation of tool).
 * to get viewable file: `mbconvert file.h5m file.vtk`
+
+## Transport Geometry
+
+* Created in Trelis.
+* All vacuum materials.
+
+File for transport: `transport-geom.h5m`
