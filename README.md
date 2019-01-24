@@ -1,4 +1,6 @@
-# Simple test geometries for testing MCNP particle tracking implementation
+# Simple test geometries
+
+Geometries that can be used for testing MCNP particle tracking implementation
 
 ## Generating the WWIG
 
